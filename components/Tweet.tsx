@@ -1,4 +1,5 @@
 import { StyleSheet, Image, Text, View } from "react-native";
+// @ts-ignore
 import { TweetType } from "../types";
 
 type TweetProps = {
@@ -8,10 +9,15 @@ type TweetProps = {
 export default function Tweet({ tweet }: TweetProps) {
   return (
     <View style={styles.container}>
-      <Image style={styles.image} source={{ uri: tweet.user.image }} />
+      <Image style={styles.avatar} source={{ uri: tweet.user.image }} />
+
       <View style={styles.mainContainer}>
         <Text style={styles.name}>{tweet.user.name}</Text>
         <Text style={styles.content}>{tweet.content}</Text>
+
+        {tweet.image && (
+          <Image style={styles.image} source={{ uri: tweet.image }} />
+        )}
       </View>
     </View>
   );
@@ -29,7 +35,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flex: 1,
   },
-  image: {
+  avatar: {
     width: 50,
     height: 50,
     borderRadius: 50,
@@ -40,5 +46,11 @@ const styles = StyleSheet.create({
   content: {
     lineHeight: 20,
     marginTop: 5,
+  },
+  image: {
+    width: "100%",
+    aspectRatio: 16 / 9,
+    marginTop: 10,
+    borderRadius: 15,
   },
 });
