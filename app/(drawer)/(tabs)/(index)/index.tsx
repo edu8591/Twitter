@@ -1,12 +1,17 @@
 import { FlatList, StyleSheet, View, Pressable } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Link } from "expo-router";
+import { TweetType } from "../../../../types";
 
-import Tweet from "../../../components/Tweet";
-import tweets from "../../../assets/data/tweets";
+import Tweet from "../../../../components/Tweet";
+import tweets from "../../../../assets/data/tweets";
+
+type TweetProps = {
+  item: TweetType;
+};
 
 export default function TabOneScreen() {
-  const renderItem = ({ item }: { item: object }) => {
+  const renderItem = ({ item }: TweetProps) => {
     return <Tweet tweet={item} />;
   };
 
@@ -20,7 +25,7 @@ export default function TabOneScreen() {
         renderItem={renderItem}
       />
 
-      <Link href={"/tweet/new"} asChild>
+      <Link href={"/new"} asChild>
         <Pressable
           style={styles.floatingButton}
           onPress={() => console.log("new tweet")}

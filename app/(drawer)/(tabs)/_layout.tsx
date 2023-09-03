@@ -1,11 +1,11 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { Pressable, useColorScheme, Image } from "react-native";
 import Colors from "../../../constants/Colors";
 import { useNavigation } from "expo-router";
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
+import { useSegments } from "expo-router";
+import { useEffect, useState } from "react";
+
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>["name"];
   color: string;
@@ -29,35 +29,32 @@ function AvatarHeader() {
   );
 }
 
+export const unstable_setting = {
+  initialRouteName: "index",
+};
+
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const segment = useSegments() as string[];
+  const [headerShown, setHeaderShown] = useState(true);
+
+  useEffect(() => {
+    segment.includes("tweet") ? setHeaderShown(false) : setHeaderShown(true);
+  }, [segment]);
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
         headerLeft: AvatarHeader,
+        headerShown: headerShown,
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(index)"
         options={{
-          title: "Tab One",
+          title: "Feed",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Tabs.Screen
